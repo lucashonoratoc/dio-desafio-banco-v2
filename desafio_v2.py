@@ -1,51 +1,52 @@
-def filtrar_usuario(cpf, usuarios):
-  for usuario in usuarios:
-    if usuario['cpf'] == cpf:
-      return usuario
+def filtrar_user(cpf, user):
+  for user in user:
+    if user['cpf'] == cpf:
+      return user
     else:
       None
 
-def criar_usuario(usuarios):
-  cpf = input("Digite seu CPF (apenas números): ")
-  usuario = filtrar_usuario(cpf, usuarios)
+def criar_usuario(user):
+  cpf = input("Digite seu CPF [SOMENTE NÚMEROS]: ")
+  user = filtrar_user(cpf, user)
 
-  if usuario:
+  if user:
     print("Usuário já cadastrado")
     return
 
   nome = input("Nome completo: ")
-  data_nascimento = input("Data de nascimento (dd-mm-aaaa): ")
-  endereco = input("Endereço (logradouro, nro - bairro - cidade/sigla estado): ")
+  data_nascimento = input("Data de nascimento: ")
+  endereco = input("Endereço: ")
 
-  usuarios.append({"nome": nome, "cpf": cpf,"data_nascimento": data_nascimento, "endereco": endereco})
-  print("Usuário cadastrado com sucesso.")
+  user.append({"nome": nome, "cpf": cpf,"data_nascimento": data_nascimento, "endereco": endereco})
+  print("Usuário cadastrado!")
 
 
-def criar_conta(agencia, numero_conta, usuarios):
-  cpf = input("Digite seu CPF (apenas números): ")
-  usuario = filtrar_usuario(cpf, usuarios)
+def criar_conta(agencia, numero_conta, user):
+  cpf = input("Digite seu CPF [SOMENTE NÚMEROS]: ")
+  user = filtrar_user(cpf, user)
 
-  if usuario:
-    print("Conta criada com sucesso.")
-    return {"agencia": agencia, "numero_conta": numero_conta, "usuario": usuario}
+  if user:
+    print("Conta cadastrada!")
+    return {"agencia": agencia, "numero_conta": numero_conta, "usuario": user}
 
-  print("Usuário não encontrado.")
-#Argumentos posicionais
+  print("Usuário não foi encontrado.")
+
+
 def deposito(saldo, valor, extrato, /):
   if valor < 0:
-    print("Operação inválida")
+    print("Operação inválida.")
   else:
     print("Depósito realizado com sucesso!")
     saldo += valor
     extrato += f"Depósito:\tR$ {valor:.2f}\n"
   return saldo, extrato
 
-#Argumentos por nome (keyword)
+
 def saque(*, valor, saldo, limite, numero_saques, limite_saques, extrato):
   if valor > saldo:
-    print("Não é possível sacar o dinheiro pois não tem saldo suficiente")
+    print("Saldo insuficiente.")
   elif valor > limite:
-    print("Você excedeu o limite de saque diário")
+    print("Limite diário excedido!")
   elif numero_saques >= LIMITE_SAQUES:
     print("Você excedeu o número de saques")
   elif valor > 0:
@@ -54,14 +55,14 @@ def saque(*, valor, saldo, limite, numero_saques, limite_saques, extrato):
     extrato += f"Saque:\t\tR$ {valor:.2f}\n"
     numero_saques += 1
   else:
-    print("Operação inválida")
+    print("Operação inválida, tente novamente!")
   return saldo, extrato
 
-#Argumentos posicionais e por nome
+
 def mostrar_extrato(saldo, /, *, extrato):
   print("\nEXTRATO\n")
   if not extrato:
-    print("Não foram efetuadas movimentações.")
+    print("Sem movimentações encontradas")
   else:
     print(extrato)
-    print(f"Saldo:\t\tR$ {saldo:.2f}\n")
+    print(f"Saldo é de: R$ {saldo:.2f}\n")
